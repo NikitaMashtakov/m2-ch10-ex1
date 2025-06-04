@@ -1,0 +1,59 @@
+{
+  "todos": [
+    {
+      "title": "fsdfsdfsfsasasassasas123321321bgfd",
+      "completed": true,
+      "id": 2
+    },
+    {
+      "title": "sasas21e21e1d",
+      "completed": false,
+      "id": 3
+    },
+    {
+      "title": "При этом в отличие от .catch() промисов, try-catch поймает не только ошибки, которые были внутри асинхронных функций, но также и ошибки, которые возникли во время обычных синхронных операций.Можно ставить брейкпоинты (точки останова). Для отладки мы можем поставить брейкпоинт куда угодно, он сработает",
+      "completed": true,
+      "id": 4
+    },
+    {
+      "title": "11544541321fvdsvdsvsv",
+      "completed": false,
+      "id": 6
+    },
+    {
+      "title": "zxzxzxzxz",
+      "completed": false,
+      "id": 7
+    },
+    {
+      "title": "3123131",
+      "completed": false,
+      "id": 8
+    },
+    {
+      "title": "safafaf",
+      "completed": false,
+      "id": 9
+    },
+    {
+      "title": "43242",
+      "completed": false,
+      "id": 10
+    },
+    {
+      "title": "werq",
+      "completed": false,
+      "id": 11
+    },
+    {
+      "title": "ewq",
+      "completed": false,
+      "id": 12
+    },
+    {
+      "title": "ewq",
+      "completed": false,
+      "id": 13
+    }
+  ]
+}
