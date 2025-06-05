@@ -1,22 +1,28 @@
 import PropTypes from 'prop-types';
-import styles from './Selector.module.css';
+import { Component } from 'react';
 import Select from 'react-select';
 
-export const Selector = ({ selectorId, options, onSetSelected }) => {
-  return (
-    <div className={styles.container}>
-      <Select
-        styles={{ height: '38px' }}
-        name={selectorId}
-        options={options}
-        defaultValue={options[0]}
-        onChange={({ value }) => {
-          onSetSelected(value);
-        }}
-      />
-    </div>
-  );
-};
+export class Selector extends Component {
+  constructor(selectorId, options, onSetSelected, ...props) {
+    super(selectorId, options, onSetSelected, ...props);
+  }
+
+  render() {
+    return (
+      <div className="flex g-[10px] p-[5px] text-xl m-auto">
+        <Select
+          style={{ height: '38px' }}
+          name={this.props.selectorId}
+          options={this.props.options}
+          defaultValue={this.props.options[0]}
+          onChange={({ value }) => {
+            this.onSetSelected(value);
+          }}
+        />
+      </div>
+    );
+  }
+}
 
 Selector.propTypes = {
   selectorId: PropTypes.string,

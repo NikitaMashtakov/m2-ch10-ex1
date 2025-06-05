@@ -1,14 +1,12 @@
-import { useState } from 'react';
-import styles from './NewTodoInput.module.css';
 import PropTypes from 'prop-types';
 import { Button } from 'components/Button/Button';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { addTodoAction } from 'actions/addTodoAction';
 import { Component } from 'react';
 
 class NewTodoInputContainer extends Component {
   state = { text: '' };
-  // buttonName, placeholder
+
   constructor(buttonName, placeholder, ...props) {
     super(buttonName, placeholder, ...props);
     this.state = { text: '' };
@@ -16,14 +14,14 @@ class NewTodoInputContainer extends Component {
 
   onButtonClick = () => {
     this.props.dispatch(addTodoAction(this.state.text));
-    this.setState('');
+    this.setState({ text: '' });
   };
 
   render() {
     return (
-      <div className={styles.container}>
+      <div className="flex items-center justify-between pt-[5px] pr-[5px] pb-[5px] pl-0 g-[10px] border-b-1 border-b-[#1d1d1d} focus:border-none focus:outline-none">
         <input
-          className={styles.input}
+          className="border-none p-[5px] flex-1 text-xl"
           type="text"
           value={this.state.text}
           placeholder={this.props.placeholder}

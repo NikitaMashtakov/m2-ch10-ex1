@@ -1,106 +1,115 @@
 import PropTypes from 'prop-types';
 import { Button } from 'components/Button/Button';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, Component } from 'react';
 import { MdOutlineEdit, MdOutlineDelete, MdDone, MdClose } from 'react-icons/md';
 import styles from './Todo.module.css';
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { completeTodoAction } from 'actions/completeTodoAction';
 import { deleteTodoAction } from 'actions/deleteTodoAction';
 import { editTodoAction } from 'actions/editTodoAction';
 
-export const Todo = ({ id, title, completed }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [text, setText] = useState('');
-  const editInputRef = useRef(null);
-  const dispatch = useDispatch();
+export class TodoContainer extends Component {
+  // = ({ id, title, completed }) =>
+  // const [isEditing, setIsEditing] = useState(false);
+  state = { isEditing: false, text: '' };
+  // const [text, setText] = useState('');
+  // const editInputRef = useRef(null);
+  // const dispatch = useDispatch();
 
-  const startEditTodo = () => {
-    setIsEditing(true);
-    setText(title);
+  startEditTodo = () => {
+    this.setState({ idEditing: true, text: this.props.title });
+    console.log('edit');
   };
 
-  const cancelEdit = () => {
-    setIsEditing(false);
+  cancelEdit = () => {
+    this.setState((prev) => ({ ...prev, isEditing: false }));
   };
 
-  const confirmEditTodo = (id, text) => {
-    dispatch(editTodoAction(id, text));
-    setIsEditing(false);
+  confirmEditTodo = (id, text) => {
+    this.props.dispatch(editTodoAction(id, text));
+    this.setState((prev) => ({ ...prev, isEditing: false }));
   };
 
-  const onCompleteTodo = (id, completed) => {
-    dispatch(completeTodoAction(id, completed));
+  onCompleteTodo = (id, completed) => {
+    this.props.dispatch(completeTodoAction(id, completed));
   };
 
-  const onDeleteTodo = (id) => {
-    dispatch(deleteTodoAction(id));
+  onDeleteTodo = (id) => {
+    this.props.dispatch(deleteTodoAction(id));
   };
 
-  useEffect(() => {
-    if (isEditing) {
-      editInputRef.current.focus();
-      editInputRef.current.selectionStart = editInputRef.current.value.length;
-    }
-  }, [isEditing]);
+  // useEffect(() => {
+  //   if (isEditing) {
+  //     editInputRef.current.focus();
+  //     editInputRef.current.selectionStart = editInputRef.current.value.length;
+  //   }
+  // }, [isEditing]);
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.todo}>
-        <input
-          className={`${completed ? styles.checked : ''}`}
-          type="checkbox"
-          id={id}
-          checked={completed}
-          onChange={() => onCompleteTodo(id, completed)}
-        />
-        {isEditing ? (
-          <textarea
-            ref={editInputRef}
-            className={styles.editTodo}
-            type="text"
-            name="edit-todo"
-            value={text}
-            onChange={({ target }) => {
-              setText(target.value);
-            }}
-            onBlur={() => editInputRef.current.focus()}
+  render() {
+    return (
+      <div className={styles.container}>
+        <div className={styles.todo}>
+          <input
+            className={`${this.props.completed ? 'styles.checked' : ''}`}
+            type="checkbox"
+            id={this.props.id}
+            checked={this.props.completed}
+            onChange={() => this.onCompleteTodo(this.props.id, this.props.completed)}
           />
-        ) : (
-          <label
-            className={`${
-              completed ? styles.checkedLabel + ' ' + styles.todoLabel : styles.todoLabel
-            }`}
-          >
-            {title}
-          </label>
-        )}
-      </div>
-      <div className={styles.buttons}>
-        {isEditing ? (
-          <Button title={'Подтвердить'} onClick={() => confirmEditTodo(id, text)}>
-            <MdDone size="20" fill="#00c700" />
-          </Button>
-        ) : (
-          <Button title={'Редактировать'} onClick={startEditTodo}>
-            <MdOutlineEdit size="20" fill="#6a75fd" />
-          </Button>
-        )}
+          {this.state.isEditing ? (
+            <textarea
+              // ref={editInputRef}
+              className={styles.editTodo}
+              type="text"
+              name="edit-todo"
+              value={this.state.text}
+              onChange={({ target }) => {
+                this.setState((prev) => ({ prev, text: target.value }));
+              }}
+              // onBlur={() => editInputRef.current.focus()}
+            />
+          ) : (
+            <label
+              className={`${
+                this.props.completed
+                  ? styles.checkedLabel + ' ' + styles.todoLabel
+                  : styles.todoLabel
+              }`}
+            >
+              {this.props.title}
+            </label>
+          )}
+        </div>
+        <div className={styles.buttons}>
+          {this.state.isEditing ? (
+            <Button
+              title={'Подтвердить'}
+              onClick={() => this.confirmEditTodo(this.props.id, this.state.text)}
+            >
+              <MdDone size="20" fill="#00c700" />
+            </Button>
+          ) : (
+            <Button title={'Редактировать'} onClick={this.startEditTodo}>
+              <MdOutlineEdit size="20" fill="#6a75fd" />
+            </Button>
+          )}
 
-        {isEditing ? (
-          <Button title={'Отмена'} onClick={cancelEdit}>
-            <MdClose size="20" fill="#ff4e4e" />
-          </Button>
-        ) : (
-          <Button title={'Удалить'} onClick={() => onDeleteTodo(id)}>
-            <MdOutlineDelete size="20" fill="#ff4e4e" />
-          </Button>
-        )}
+          {this.state.isEditing ? (
+            <Button title={'Отмена'} onClick={this.cancelEdit}>
+              <MdClose size="20" fill="#ff4e4e" />
+            </Button>
+          ) : (
+            <Button title={'Удалить'} onClick={() => this.onDeleteTodo(this.props.id)}>
+              <MdOutlineDelete size="20" fill="#ff4e4e" />
+            </Button>
+          )}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
-Todo.propTypes = {
+TodoContainer.propTypes = {
   id: PropTypes.number,
   title: PropTypes.string,
   completed: PropTypes.bool,
@@ -108,3 +117,5 @@ Todo.propTypes = {
   onEditTodo: PropTypes.func,
   onDeleteTodo: PropTypes.func,
 };
+
+export const Todo = connect()(TodoContainer);

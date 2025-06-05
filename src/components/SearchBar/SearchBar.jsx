@@ -1,40 +1,21 @@
-import styles from './SearchBar.module.css';
-import { connect, useDispatch } from 'react-redux';
-import { Component, useCallback, useMemo, useState } from 'react';
+import { connect } from 'react-redux';
+import { Component } from 'react';
 import debounce from 'utils/debounce';
 
 class SearchBarContainer extends Component {
   state = { value: '' };
-  // memoizedDispatch = null;
-
-  // const [value, setValue] = useState('');
-  // const dispatch = useDispatch();
-  debouncedSearch = null;
-  // componentDidMount() {
-  memoizedDispatch(value) {
-    this.props.dispatch({ type: 'SET_SEARCH', payload: value });
-    console.log('mount');
-  }
-  deb = (value) => {
-    debounce(this.memoizedDispatch(value), 2500);
-  };
-  // getSnapshotBeforeUpdate() {
-  //   this.debouncedSearch = (value) => debounce(this.memoizedDispatch(value), 250);
-  // }
+  debouncedSearch = debounce(this.props.dispatch, 500);
 
   searchHandler = (value) => {
-    console.log('handler');
-    console.log(this.memoizedDispatch);
     this.setState({ value });
-    console.log(this.debouncedSearch);
-    this.deb(this.state.value);
+    this.debouncedSearch({ type: 'SET_SEARCH', payload: value });
   };
 
   render() {
     return (
-      <div className={styles.container}>
+      <div className="flex-3 p-[5px]">
         <input
-          className={styles.input}
+          className="py-[6px] px-[10px] w-full border-1 border-[#ccc] rounded-[4px] text-xl"
           type="text"
           name="search"
           value={this.state.value}
