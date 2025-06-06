@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { Button } from 'components/Button/Button';
-import { useEffect, useState, useRef, Component } from 'react';
+import { createRef, Component } from 'react';
 import { MdOutlineEdit, MdOutlineDelete, MdDone, MdClose } from 'react-icons/md';
 import styles from './Todo.module.css';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { completeTodoAction } from 'actions/completeTodoAction';
 import { deleteTodoAction } from 'actions/deleteTodoAction';
 import { editTodoAction } from 'actions/editTodoAction';
@@ -15,19 +15,23 @@ export class TodoContainer extends Component {
   // const [text, setText] = useState('');
   // const editInputRef = useRef(null);
   // const dispatch = useDispatch();
+  constructor(id, title, completed) {
+    super(id, title, completed);
+    this.editInputRef = createRef();
+  }
 
   startEditTodo = () => {
-    this.setState({ idEditing: true, text: this.props.title });
+    this.setState({ isEditing: true, text: this.props.title });
     console.log('edit');
   };
 
   cancelEdit = () => {
-    this.setState((prev) => ({ ...prev, isEditing: false }));
+    this.setState({ isEditing: false });
   };
 
   confirmEditTodo = (id, text) => {
     this.props.dispatch(editTodoAction(id, text));
-    this.setState((prev) => ({ ...prev, isEditing: false }));
+    this.setState({ isEditing: false });
   };
 
   onCompleteTodo = (id, completed) => {
@@ -45,6 +49,13 @@ export class TodoContainer extends Component {
   //   }
   // }, [isEditing]);
 
+  componentDidUpdate() {
+    if (this.state.isEditing) {
+      this.editInputRef.current.focus();
+      this.editInputRef.current.selectionStart = this.editInputRef.current.value.length;
+    }
+  }
+
   render() {
     return (
       <div className={styles.container}>
@@ -58,18 +69,19 @@ export class TodoContainer extends Component {
           />
           {this.state.isEditing ? (
             <textarea
-              // ref={editInputRef}
+              ref={this.editInputRef}
               className={styles.editTodo}
               type="text"
               name="edit-todo"
               value={this.state.text}
               onChange={({ target }) => {
-                this.setState((prev) => ({ prev, text: target.value }));
+                this.setState({ text: target.value });
               }}
-              // onBlur={() => editInputRef.current.focus()}
+              onBlur={() => this.editInputRef.current.focus()}
             />
           ) : (
             <label
+              htmlFor={this.props.id}
               className={`${
                 this.props.completed
                   ? styles.checkedLabel + ' ' + styles.todoLabel
@@ -118,4 +130,4 @@ TodoContainer.propTypes = {
   onDeleteTodo: PropTypes.func,
 };
 
-export const Todo = connect()(TodoContainer);
+export const Todo = connect(null)(TodoContainer);

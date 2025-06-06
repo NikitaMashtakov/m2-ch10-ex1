@@ -27,7 +27,7 @@
     },
     {
       "title": "3123131",
-      "completed": false,
+      "completed": true,
       "id": 8
     },
     {
@@ -47,18 +47,8 @@
     },
     {
       "title": "ewq",
-      "completed": false,
+      "completed": true,
       "id": 12
-    },
-    {
-      "title": "ewq",
-      "completed": false,
-      "id": 13
-    },
-    {
-      "title": "121212",
-      "completed": false,
-      "id": 14
     },
     {
       "title": "12121",
@@ -69,11 +59,6 @@
       "title": "1212121",
       "completed": false,
       "id": 16
-    },
-    {
-      "title": "1",
-      "completed": false,
-      "id": 17
     }
   ]
 }

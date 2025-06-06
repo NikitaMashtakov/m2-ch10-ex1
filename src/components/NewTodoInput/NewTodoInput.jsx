@@ -7,8 +7,8 @@ import { Component } from 'react';
 class NewTodoInputContainer extends Component {
   state = { text: '' };
 
-  constructor(buttonName, placeholder, ...props) {
-    super(buttonName, placeholder, ...props);
+  constructor(buttonName, placeholder) {
+    super(buttonName, placeholder);
     this.state = { text: '' };
   }
 
@@ -21,6 +21,7 @@ class NewTodoInputContainer extends Component {
     return (
       <div className="flex items-center justify-between pt-[5px] pr-[5px] pb-[5px] pl-0 g-[10px] border-b-1 border-b-[#1d1d1d} focus:border-none focus:outline-none">
         <input
+          name="new-todo"
           className="border-none p-[5px] flex-1 text-xl"
           type="text"
           value={this.state.text}
@@ -52,4 +53,4 @@ NewTodoInputContainer.propTypes = {
   dispatch: PropTypes.func,
 };
 
-export const NewTodoInput = connect()(NewTodoInputContainer);
+export const NewTodoInput = connect(null)(NewTodoInputContainer);
