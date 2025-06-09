@@ -1,10 +1,13 @@
 import { Component } from 'react';
-import styles from './Toolbar.module.css';
 import PropTypes from 'prop-types';
 
 export class Toolbar extends Component {
   render() {
-    return <div className={styles.container}>{this.props.children}</div>;
+    return (
+      <div className="flex justify-between flex-col md:flex-row">
+        {this.props.children}
+      </div>
+    );
   }
 }
 

@@ -7,7 +7,7 @@
     },
     {
       "title": "sasas21e21e1d",
-      "completed": false,
+      "completed": true,
       "id": 3
     },
     {
@@ -17,12 +17,12 @@
     },
     {
       "title": "11544541321fvdsvdsvsv",
-      "completed": false,
+      "completed": true,
       "id": 6
     },
     {
       "title": "zxzxzxzxz",
-      "completed": false,
+      "completed": true,
       "id": 7
     },
     {
@@ -32,22 +32,22 @@
     },
     {
       "title": "safafaf",
-      "completed": false,
+      "completed": true,
       "id": 9
     },
     {
       "title": "43242",
-      "completed": false,
+      "completed": true,
       "id": 10
     },
     {
       "title": "werq",
-      "completed": false,
+      "completed": true,
       "id": 11
     },
     {
       "title": "ewq",
-      "completed": true,
+      "completed": false,
       "id": 12
     },
     {
@@ -66,14 +66,9 @@
       "id": 17
     },
     {
-      "title": "qqq",
+      "title": "qqqewqeqeweqefwewfw",
       "completed": false,
       "id": 18
-    },
-    {
-      "title": "qwdq",
-      "completed": false,
-      "id": 19
     }
   ]
 }

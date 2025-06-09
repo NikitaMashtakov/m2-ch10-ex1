@@ -25,17 +25,17 @@ export class TodoContainer extends Component {
     this.setState({ isEditing: false });
   };
 
-  confirmEditTodo = () => {
-    this.props.editTodoAction(this.props.id, this.state.text);
+  confirmEditTodo = (id, text) => {
+    this.props.editTodoAction(id, text);
     this.setState({ isEditing: false });
   };
 
-  onCompleteTodo = () => {
-    this.props.completeTodoAction(this.props.id, this.props.completed);
+  onCompleteTodo = (id, completed) => {
+    this.props.completeTodoAction(id, completed);
   };
 
-  onDeleteTodo = () => {
-    this.props.deleteTodoAction(this.props.id);
+  onDeleteTodo = (id) => {
+    this.props.deleteTodoAction(id);
   };
 
   componentDidUpdate() {
@@ -47,18 +47,20 @@ export class TodoContainer extends Component {
 
   render() {
     return (
-      <div>
-        <div>
+      <div className="flex justify-between gap-[5px] p-[5px] border-b-[1px] border-black">
+        <div className="flex items-center justify-between gap-[10px] text-xl overflow-hidden w-full">
           <input
-            className={`${this.props.completed ? 'styles.checked' : ''}`}
+            className="appearance-none w-6 h-6 rounded-xs border-[0.15em] border-[#69aaff] outline-none cursor-pointer checked:before:content-['\2714'] checked:before:text-xl checked:before:text-white checked:before:absolute checked:before:right-[-2px] checked:before:top-[-5px] checked:bg-[#69aaff] checked:relative"
             type="checkbox"
             id={this.props.id}
             checked={this.props.completed}
-            onChange={this.onCompleteTodo}
+            onChange={() => this.onCompleteTodo(this.props.id, this.props.completed)}
           />
+
           {this.state.isEditing ? (
             <textarea
               ref={this.editInputRef}
+              className="flex flex-1 text-xl border-0 w-full overflow-scroll resize-none focus:border-none focus:outline-none focus:bg-[#ececec]"
               type="text"
               name="edit-todo"
               value={this.state.text}
@@ -68,12 +70,24 @@ export class TodoContainer extends Component {
               onBlur={() => this.editInputRef.current.focus()}
             />
           ) : (
-            <label htmlFor={this.props.id}>{this.props.title}</label>
+            <>
+              <label
+                htmlFor={this.props.id}
+                className={`flex flex-1 whitespace-nowrap overflow-hidden overflow-ellipsis decoration-none cursor-pointer ${
+                  this.props.completed ? 'line-through' : ''
+                }`}
+              >
+                {this.props.title}
+              </label>
+            </>
           )}
         </div>
-        <div>
+        <div className="flex items-center justify-center gap-[10px]">
           {this.state.isEditing ? (
-            <Button title={'Подтвердить'} onClick={this.confirmEditTodo}>
+            <Button
+              title={'Подтвердить'}
+              onClick={() => this.confirmEditTodo(this.props.id, this.state.text)}
+            >
               <MdDone size="20" fill="#00c700" />
             </Button>
           ) : (
@@ -87,7 +101,7 @@ export class TodoContainer extends Component {
               <MdClose size="20" fill="#ff4e4e" />
             </Button>
           ) : (
-            <Button title={'Удалить'} onClick={this.onDeleteTodo}>
+            <Button title={'Удалить'} onClick={() => this.onDeleteTodo(this.props.id)}>
               <MdOutlineDelete size="20" fill="#ff4e4e" />
             </Button>
           )}
@@ -101,9 +115,9 @@ TodoContainer.propTypes = {
   id: PropTypes.number,
   title: PropTypes.string,
   completed: PropTypes.bool,
-  onCompleteTodo: PropTypes.func,
-  onEditTodo: PropTypes.func,
-  onDeleteTodo: PropTypes.func,
+  editTodoAction: PropTypes.func,
+  completeTodoAction: PropTypes.func,
+  deleteTodoAction: PropTypes.func,
 };
 
 export const Todo = connect(null, {

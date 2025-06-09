@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { TodoList } from 'components/TodoList/TodoList';
 import NewTodoInput from 'components/NewTodoInput/NewTodoInput';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -5,15 +6,13 @@ import { Component } from 'react';
 import { SearchBar } from 'components/SearchBar/SearchBar';
 import { Selector } from 'components/Selector/Selector';
 import { OPTIONS } from 'constants/sortingOptions';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { getTodosAction } from 'actions/getTodosAction';
 import { bindActionCreators } from 'redux';
 
 class AllTodoPageContainer extends Component {
-  // const dispatch = useDispatch();
-  // const selectedSort = useSelector((state) => state.appState.selectedSort);
-  constructor(getTodos, setSort) {
-    super(getTodos, setSort);
+  constructor(props) {
+    super(props);
     this.state = { selectedSort: OPTIONS[0] };
   }
   selectorHandler = (value) => {
@@ -22,12 +21,11 @@ class AllTodoPageContainer extends Component {
   componentDidMount() {
     this.props.getTodosAction(this.state.selectedSort);
   }
-  // componentDidUpdate(prevState) {
-  //   // Проверяем, нужно ли выполнять dispatch снова
-  //   if (prevState.selectedSort !== this.state.selectedSort) {
-  //     this.props.getTodosAction(this.state.selectedSort);
-  //   }
-  // }
+  componentDidUpdate(prevState) {
+    if (prevState.selectedSort !== this.state.selectedSort) {
+      this.props.getTodosAction(this.state.selectedSort);
+    }
+  }
   render() {
     return (
       <>
@@ -48,6 +46,11 @@ class AllTodoPageContainer extends Component {
     );
   }
 }
+
+AllTodoPageContainer.propTypes = {
+  dispatch: PropTypes.func,
+  getTodosAction: PropTypes.func,
+};
 
 const mapStateToProps = (state) => ({
   selectedSort: state.appState.selectedSort,

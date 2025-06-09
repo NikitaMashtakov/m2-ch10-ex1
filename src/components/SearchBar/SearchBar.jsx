@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Component } from 'react';
 import debounce from 'utils/debounce';
@@ -26,5 +27,9 @@ class SearchBarContainer extends Component {
     );
   }
 }
+
+SearchBarContainer.propTypes = {
+  dispatch: PropTypes.func,
+};
 
 export const SearchBar = connect()(SearchBarContainer);

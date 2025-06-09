@@ -5,10 +5,8 @@ import { addTodoAction } from 'actions/addTodoAction';
 import { Component } from 'react';
 
 class NewTodoInputContainer extends Component {
-  state = { text: '' };
-
-  constructor(buttonName, placeholder) {
-    super(buttonName, placeholder);
+  constructor(props) {
+    super(props);
     this.state = { text: '' };
   }
 
@@ -39,7 +37,7 @@ class NewTodoInputContainer extends Component {
               this.onButtonClick();
             }
           }}
-          style={{ border: '1px solid #ccc' }}
+          addClasses={'border-[1px] border-[#ccc]'}
         >
           {this.props.buttonName}
         </Button>
@@ -50,7 +48,7 @@ class NewTodoInputContainer extends Component {
 NewTodoInputContainer.propTypes = {
   buttonName: PropTypes.string,
   placeholder: PropTypes.string,
-  onAddTodo: PropTypes.func,
+  addTodoAction: PropTypes.func,
 };
 
 export default connect(null, { addTodoAction })(NewTodoInputContainer);

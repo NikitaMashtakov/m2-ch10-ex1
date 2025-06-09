@@ -1,34 +1,3 @@
-.container {
-  display: flex;
-  gap: 5px;
-  padding: 5px;
-  justify-content: space-between;
-  border-bottom: 1px solid black;
-}
-
-.todo {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  font-size: 1.3rem;
-  overflow: hidden;
-  width: 100%;
-}
-
-.todoLabel {
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.checkedLabel {
-  text-decoration: line-through;
-}
-
 .todo input[type='checkbox'] {
   -webkit-appearance: none;
   appearance: none;
@@ -52,30 +21,4 @@ input.checked::before {
   position: absolute;
   right: 0px;
   top: -6px;
-}
-
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-.editTodo {
-  flex: 1;
-  font-size: 1.3rem;
-  border: none;
-  width: 100%;
-  overflow: scroll;
-  resize: none;
-}
-
-.editTodo:focus {
-  border: none;
-  outline: none;
-  background: #ececec;
-}
-
-.editTodo::-webkit-scrollbar {
-  display: none;
 }

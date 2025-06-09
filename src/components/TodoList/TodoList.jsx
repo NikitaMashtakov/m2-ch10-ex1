@@ -1,5 +1,4 @@
 import { Todo } from 'components/Todo/Todo';
-import styles from './TodoList.module.css';
 import { connect } from 'react-redux';
 import { Loader } from 'components/Loader/Loader';
 import { PureComponent } from 'react';
@@ -12,7 +11,7 @@ class TodoListContainer extends PureComponent {
 
   render() {
     return (
-      <div className={styles.container}>
+      <div className="flex flex-col">
         {this.props.isLoading ? (
           <Loader />
         ) : this.props.todosToShow.length !== 0 ? (
@@ -20,7 +19,7 @@ class TodoListContainer extends PureComponent {
             <Todo key={id} id={id} title={title} completed={completed} />
           ))
         ) : (
-          <h2 className={styles.noTodos}>Задач нет</h2>
+          <h2 className="m-auto mt-[10px]">Задач нет</h2>
         )}
       </div>
     );
