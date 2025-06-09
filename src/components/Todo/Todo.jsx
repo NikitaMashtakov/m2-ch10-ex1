@@ -2,19 +2,15 @@ import PropTypes from 'prop-types';
 import { Button } from 'components/Button/Button';
 import { createRef, Component } from 'react';
 import { MdOutlineEdit, MdOutlineDelete, MdDone, MdClose } from 'react-icons/md';
-import styles from './Todo.module.css';
+// import styles from './Todo.module.css';
 import { connect } from 'react-redux';
 import { completeTodoAction } from 'actions/completeTodoAction';
 import { deleteTodoAction } from 'actions/deleteTodoAction';
 import { editTodoAction } from 'actions/editTodoAction';
 
 export class TodoContainer extends Component {
-  // = ({ id, title, completed }) =>
-  // const [isEditing, setIsEditing] = useState(false);
   state = { isEditing: false, text: '' };
-  // const [text, setText] = useState('');
-  // const editInputRef = useRef(null);
-  // const dispatch = useDispatch();
+
   constructor(id, title, completed) {
     super(id, title, completed);
     this.editInputRef = createRef();
@@ -29,25 +25,18 @@ export class TodoContainer extends Component {
     this.setState({ isEditing: false });
   };
 
-  confirmEditTodo = (id, text) => {
-    this.props.dispatch(editTodoAction(id, text));
+  confirmEditTodo = () => {
+    this.props.editTodoAction(this.props.id, this.state.text);
     this.setState({ isEditing: false });
   };
 
-  onCompleteTodo = (id, completed) => {
-    this.props.dispatch(completeTodoAction(id, completed));
+  onCompleteTodo = () => {
+    this.props.completeTodoAction(this.props.id, this.props.completed);
   };
 
-  onDeleteTodo = (id) => {
-    this.props.dispatch(deleteTodoAction(id));
+  onDeleteTodo = () => {
+    this.props.deleteTodoAction(this.props.id);
   };
-
-  // useEffect(() => {
-  //   if (isEditing) {
-  //     editInputRef.current.focus();
-  //     editInputRef.current.selectionStart = editInputRef.current.value.length;
-  //   }
-  // }, [isEditing]);
 
   componentDidUpdate() {
     if (this.state.isEditing) {
@@ -58,19 +47,18 @@ export class TodoContainer extends Component {
 
   render() {
     return (
-      <div className={styles.container}>
-        <div className={styles.todo}>
+      <div>
+        <div>
           <input
             className={`${this.props.completed ? 'styles.checked' : ''}`}
             type="checkbox"
             id={this.props.id}
             checked={this.props.completed}
-            onChange={() => this.onCompleteTodo(this.props.id, this.props.completed)}
+            onChange={this.onCompleteTodo}
           />
           {this.state.isEditing ? (
             <textarea
               ref={this.editInputRef}
-              className={styles.editTodo}
               type="text"
               name="edit-todo"
               value={this.state.text}
@@ -80,24 +68,12 @@ export class TodoContainer extends Component {
               onBlur={() => this.editInputRef.current.focus()}
             />
           ) : (
-            <label
-              htmlFor={this.props.id}
-              className={`${
-                this.props.completed
-                  ? styles.checkedLabel + ' ' + styles.todoLabel
-                  : styles.todoLabel
-              }`}
-            >
-              {this.props.title}
-            </label>
+            <label htmlFor={this.props.id}>{this.props.title}</label>
           )}
         </div>
-        <div className={styles.buttons}>
+        <div>
           {this.state.isEditing ? (
-            <Button
-              title={'Подтвердить'}
-              onClick={() => this.confirmEditTodo(this.props.id, this.state.text)}
-            >
+            <Button title={'Подтвердить'} onClick={this.confirmEditTodo}>
               <MdDone size="20" fill="#00c700" />
             </Button>
           ) : (
@@ -111,7 +87,7 @@ export class TodoContainer extends Component {
               <MdClose size="20" fill="#ff4e4e" />
             </Button>
           ) : (
-            <Button title={'Удалить'} onClick={() => this.onDeleteTodo(this.props.id)}>
+            <Button title={'Удалить'} onClick={this.onDeleteTodo}>
               <MdOutlineDelete size="20" fill="#ff4e4e" />
             </Button>
           )}
@@ -130,4 +106,8 @@ TodoContainer.propTypes = {
   onDeleteTodo: PropTypes.func,
 };
 
-export const Todo = connect(null)(TodoContainer);
+export const Todo = connect(null, {
+  editTodoAction,
+  completeTodoAction,
+  deleteTodoAction,
+})(TodoContainer);

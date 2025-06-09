@@ -13,7 +13,7 @@ class NewTodoInputContainer extends Component {
   }
 
   onButtonClick = () => {
-    this.props.dispatch(addTodoAction(this.state.text));
+    this.props.addTodoAction(this.state.text);
     this.setState({ text: '' });
   };
 
@@ -50,7 +50,7 @@ class NewTodoInputContainer extends Component {
 NewTodoInputContainer.propTypes = {
   buttonName: PropTypes.string,
   placeholder: PropTypes.string,
-  dispatch: PropTypes.func,
+  onAddTodo: PropTypes.func,
 };
 
-export const NewTodoInput = connect(null)(NewTodoInputContainer);
+export default connect(null, { addTodoAction })(NewTodoInputContainer);

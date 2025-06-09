@@ -27,4 +27,4 @@ class SearchBarContainer extends Component {
   }
 }
 
-export const SearchBar = connect(null)(SearchBarContainer);
+export const SearchBar = connect()(SearchBarContainer);

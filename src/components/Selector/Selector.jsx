@@ -15,9 +15,7 @@ export class Selector extends Component {
           name={this.props.selectorId}
           options={this.props.options}
           defaultValue={this.props.options[0]}
-          onChange={({ value }) => {
-            this.onSetSelected(value);
-          }}
+          onChange={({ value }) => this.props.onSetSelected(value)}
         />
       </div>
     );

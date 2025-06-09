@@ -11,15 +11,12 @@ class TodoListContainer extends PureComponent {
   }
 
   render() {
-    const todosToShow = this.props.todos.filter(({ title }) =>
-      title.toLowerCase().includes(this.props.search.toLowerCase()),
-    );
     return (
       <div className={styles.container}>
         {this.props.isLoading ? (
           <Loader />
-        ) : todosToShow.length !== 0 ? (
-          todosToShow.map(({ id, title, completed }) => (
+        ) : this.props.todosToShow.length !== 0 ? (
+          this.props.todosToShow.map(({ id, title, completed }) => (
             <Todo key={id} id={id} title={title} completed={completed} />
           ))
         ) : (
@@ -32,14 +29,19 @@ class TodoListContainer extends PureComponent {
 
 TodoListContainer.propTypes = {
   search: PropTypes.string,
-  todos: PropTypes.arrayOf(PropTypes.object),
+  todosToShow: PropTypes.arrayOf(PropTypes.object),
   isLoading: PropTypes.bool,
 };
 
-const mapStateToProps = (state) => ({
-  search: state.appState.search,
-  todos: state.todosState.todos,
-  isLoading: state.appState.isLoading,
-});
+const mapStateToProps = (state) => {
+  const todosToShow = state.todosState.todos.filter(({ title }) =>
+    title.toLowerCase().includes(state.appState.search.toLowerCase()),
+  );
+  return {
+    search: state.appState.search,
+    todosToShow,
+    isLoading: state.appState.isLoading,
+  };
+};
 
 export const TodoList = connect(mapStateToProps)(TodoListContainer);
